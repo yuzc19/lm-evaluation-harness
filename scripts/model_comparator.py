@@ -1,5 +1,4 @@
 import argparse
-import logging
 import os
 from typing import Dict, List, Tuple
 
@@ -9,16 +8,16 @@ import torch
 
 import lm_eval.evaluator
 import lm_eval.models.utils
-from lm_eval import tasks
+from lm_eval import tasks, utils
 
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
-eval_logger = logging.getLogger(__name__)
+eval_logger = utils.eval_logger
 
 
 def memory_stats():
     eval_logger.info(
-        f"Memory allocated: {torch.cuda.memory_allocated() / 1024**2}, reserved: {torch.cuda.memory_reserved() // 1024**2}"
+        f"Memory allocated: {torch.cuda.memory_allocated() / 1024 ** 2}, reserved: {torch.cuda.memory_reserved() // 1024 ** 2}"
     )
 
 

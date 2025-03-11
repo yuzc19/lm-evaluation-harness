@@ -1,4 +1,3 @@
-# noqa
 """
 Take in a YAML, and output all "other" splits with this YAML
 """
@@ -11,7 +10,7 @@ import yaml
 from tqdm import tqdm
 
 
-eval_logger = logging.getLogger(__name__)
+eval_logger = logging.getLogger("lm-eval")
 
 
 SUBJECTS = {

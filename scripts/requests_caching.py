@@ -4,7 +4,6 @@ Usage:
 """
 
 import argparse
-import logging
 import os
 from typing import List
 
@@ -15,9 +14,7 @@ from transformers import (
 
 from lm_eval import simple_evaluate
 from lm_eval.evaluator import request_caching_arg_to_dict
-
-
-eval_logger = logging.getLogger(__name__)
+from lm_eval.utils import eval_logger
 
 
 MODULE_DIR = os.path.dirname(os.path.realpath(__file__))

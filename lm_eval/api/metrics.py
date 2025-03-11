@@ -12,20 +12,13 @@ import sacrebleu
 from lm_eval.api.registry import register_aggregation, register_metric
 
 
-eval_logger = logging.getLogger(__name__)
+eval_logger = logging.getLogger("lm-eval")
 
 
 # Register Aggregations First
 @register_aggregation("bypass")
 def bypass_agg(arr):
     return 999
-
-
-@register_aggregation("nanmean")
-def nanmean(arr):
-    if len(arr) == 0 or all(np.isnan(arr)):
-        return np.nan
-    return np.nanmean(arr)
 
 
 @register_aggregation("mean")
@@ -505,7 +498,6 @@ def stderr_for_metric(metric, bootstrap_iters: int):
         bleu,
         chrf,
         ter,
-        nanmean,
     ]
 
     if metric in bootstrappable:
@@ -535,9 +527,9 @@ def pooled_sample_stderr(stderrs: List[float], sizes: List[int]):
 
 
 def combined_sample_stderr(stderrs: List[float], sizes: List[int], metrics=None):
-    assert metrics is not None, (
-        "Need to pass a list of each subtask's metric for this stderr aggregation"
-    )
+    assert (
+        metrics is not None
+    ), "Need to pass a list of each subtask's metric for this stderr aggregation"
     assert len(stderrs) == len(sizes) and len(sizes) == len(metrics)
 
     # See https://github.com/EleutherAI/lm-evaluation-harness/pull/1390 for more documentation.

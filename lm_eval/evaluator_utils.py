@@ -1,5 +1,4 @@
 import collections
-import logging
 import math
 import pathlib
 import sys
@@ -8,15 +7,11 @@ from typing import List, Optional, Tuple, Union
 from lm_eval.api.group import ConfigurableGroup
 from lm_eval.api.metrics import (
     aggregate_subtask_metrics,
-    mean,
     pooled_sample_stderr,
     stderr_for_metric,
 )
 from lm_eval.api.task import Task
-from lm_eval.utils import positional_deprecated
-
-
-eval_logger = logging.getLogger(__name__)
+from lm_eval.utils import eval_logger, positional_deprecated
 
 
 class TaskOutput:
@@ -104,12 +99,7 @@ class TaskOutput:
 
     def calculate_aggregate_metric(self, bootstrap_iters=100000) -> None:
         for (metric, filter_key), items in self.sample_metrics.items():
-            try:
-                agg_fn = self.task.aggregation()[metric]
-            except KeyError:
-                # This is when process results output an arbitrary metric
-                # TODO: Handle this better and allow other aggregate functions other than mean.
-                agg_fn = mean
+            agg_fn = self.task.aggregation()[metric]
             metric_key = f"{metric},{filter_key}"
             self.agg_metrics[metric_key] = agg_fn(items)
             self.sample_len = len(items)  # TODO: same sample size for each metric?

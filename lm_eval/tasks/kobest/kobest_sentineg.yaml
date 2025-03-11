@@ -1,3 +1,5 @@
+tag:
+  - kobest
 task: kobest_sentineg
 dataset_path: skt/kobest_v1
 dataset_name: sentineg

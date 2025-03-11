@@ -11,6 +11,7 @@ from pytablewriter import MarkdownTableWriter
 from lm_eval import tasks
 
 
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 

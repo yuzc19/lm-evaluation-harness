@@ -1,11 +1,9 @@
 import hashlib
-import logging
 import os
 
 import dill
 
-
-eval_logger = logging.getLogger(__name__)
+from lm_eval.utils import eval_logger
 
 
 MODULE_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -23,9 +21,7 @@ HASH_PREFIX = hashlib.sha256(HASH_INPUT.encode("utf-8")).hexdigest()
 FILE_SUFFIX = f".{HASH_PREFIX}.pickle"
 
 
-def load_from_cache(file_name: str, cache: bool = False):
-    if not cache:
-        return
+def load_from_cache(file_name):
     try:
         path = f"{PATH}/{file_name}{FILE_SUFFIX}"
 

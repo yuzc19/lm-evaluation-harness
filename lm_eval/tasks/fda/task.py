@@ -33,9 +33,7 @@ class FDA(ConfigurableTask):
     def doc_to_target(self, doc):
         return doc["value"]
 
-    def construct_requests(
-        self, doc, ctx, chat_template=None, apply_chat_template=False, **kwargs
-    ):
+    def construct_requests(self, doc, ctx, **kwargs):
         """Uses RequestFactory to construct Requests and returns an iterable of
         Requests which will be sent to the LM.
 

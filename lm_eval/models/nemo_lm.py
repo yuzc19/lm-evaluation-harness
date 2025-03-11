@@ -13,7 +13,6 @@
 # limitations under the License.
 
 import importlib
-import logging
 import pathlib
 from copy import deepcopy
 from typing import List, Literal
@@ -28,13 +27,11 @@ from lm_eval.api.model import LM
 from lm_eval.api.registry import register_model
 from lm_eval.models.utils import Collator
 from lm_eval.utils import (
+    eval_logger,
     get_rolling_token_windows,
     make_disjoint_window,
     simple_parse_args_string,
 )
-
-
-eval_logger = logging.getLogger(__name__)
 
 
 def _patch_pretrained_cfg(
@@ -42,8 +39,8 @@ def _patch_pretrained_cfg(
 ):
     try:
         import omegaconf
-    except ModuleNotFoundError as exception:
-        raise type(exception)(
+    except ModuleNotFoundError:
+        raise Exception(
             "Attempted to use 'nemo_lm' model type, but package `nemo` is not installed"
             "Please install nemo following the instructions in the README: either with a NVIDIA PyTorch or NeMo container, "
             "or installing nemo following https://github.com/NVIDIA/NeMo.",
@@ -82,8 +79,8 @@ def load_model(
             MegatronGPTModel,
         )
         from nemo.collections.nlp.parts.nlp_overrides import NLPSaveRestoreConnector
-    except ModuleNotFoundError as exception:
-        raise type(exception)(
+    except ModuleNotFoundError:
+        raise Exception(
             "Attempted to use 'nemo_lm' model type, but package `nemo` is not installed"
             "Please install nemo following the instructions in the README: either with a NVIDIA PyTorch or NeMo container, "
             "or installing nemo following https://github.com/NVIDIA/NeMo.",
@@ -143,8 +140,8 @@ def load_model(
 def setup_distributed_environment(trainer):
     try:
         from nemo.utils.app_state import AppState
-    except ModuleNotFoundError as exception:
-        raise type(exception)(
+    except ModuleNotFoundError:
+        raise Exception(
             "Attempted to use 'nemo_lm' model type, but package `nemo` is not installed"
             "Please install nemo following the instructions in the README: either with a NVIDIA PyTorch or NeMo container, "
             "or installing nemo following https://github.com/NVIDIA/NeMo.",
@@ -190,15 +187,15 @@ class NeMoLM(LM):
         **kwargs,
     ):
         try:
-            from lightning.pytorch.trainer.trainer import Trainer
             from nemo.collections.nlp.modules.common.text_generation_utils import (
                 generate,
             )
             from nemo.collections.nlp.parts.nlp_overrides import NLPDDPStrategy
+            from pytorch_lightning.trainer.trainer import Trainer
 
             self.generate = generate
-        except ModuleNotFoundError as exception:
-            raise type(exception)(
+        except ModuleNotFoundError:
+            raise Exception(
                 "Attempted to use 'nemo_lm' model type, but package `nemo` is not installed"
                 "Please install nemo following the instructions in the README: either with a NVIDIA PyTorch or NeMo container, "
                 "or installing nemo following https://github.com/NVIDIA/NeMo.",

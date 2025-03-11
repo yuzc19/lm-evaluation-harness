@@ -1,9 +1,6 @@
 group: spanish_bench
 task:
   - belebele_spa_Latn
-  - copa_es
-  - escola
-  - openbookqa_es
   - wnli_es
   - xnli_es_spanish_bench
   - xstorycloze_es
@@ -13,6 +10,5 @@ task:
   - mgsm_direct_es_spanish_bench
   - flores_es
   - phrases_es
-  - cocoteros_es
 metadata:
   version: 1.0
