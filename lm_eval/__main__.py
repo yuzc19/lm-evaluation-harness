@@ -262,7 +262,7 @@ def setup_parser() -> argparse.ArgumentParser:
 
 def parse_eval_args(parser: argparse.ArgumentParser) -> argparse.Namespace:
     check_argument_types(parser)
-    return parser.parse_args()
+    return parser.parse_known_args()[0]
 
 
 def cli_evaluate(args: Union[argparse.Namespace, None] = None) -> None:
